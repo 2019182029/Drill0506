@@ -88,6 +88,11 @@ def update_world():
             cx, cy = hx, hy  # 캐릭터 위치를 강제로 목적지 위치와 정확히 일치시킴.
             del points[0]
             set_new_target_arrow()
+    # if (points):
+    #     set_new_target_arrow()
+    # 무한히 첫번째 목적지를 설정하여 동작하지 않을 것이다.
+    elif (points):
+        set_new_target_arrow()
 
 
 open_canvas(TUK_WIDTH, TUK_HEIGHT)
