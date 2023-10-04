@@ -39,20 +39,27 @@ def reset_world():
     frame = 0
     action = 3
 
-    points = [ (100, 900), (1200, 800), (500, 100) ]
+    points = [(100, 900), (1200, 800), (500, 100)]
     set_new_target_arrow()
 
 
 def set_new_target_arrow():
     global sx, sy, hx, hy
     global frame, action, t
-    sx, sy = cx, cy  # p1 : 시작점
-    # hx, hy = 50, 50
-    hx, hy = points[0]  # p2 : 끝점
-    t = 0.0
-    action = 1 if (sx < hx) else 0
-    frame = 0
+    global target_exist
 
+    # if len(points) > 0:
+    if points:  # 위 문장과 동일한 의미
+        sx, sy = cx, cy  # p1 : 시작점
+        # hx, hy = 50, 50
+        hx, hy = points[0]  # p2 : 끝점
+        t = 0.0
+        action = 1 if (sx < hx) else 0
+        frame = 0
+        target_exist = True
+    else:
+        action = 3 if (action == 1) else 2  # IDLE 애니메이션
+        target_exist = False
 
 def render_world():
     clear_canvas()
@@ -66,16 +73,19 @@ def render_world():
 def update_world():
     global frame, action
     global cx, cy, sx, sy, t
+    global points
 
     frame = (frame + 1) % 8
 
-    if (t <= 1.0):
-        cx = (1 - t) * sx + t * hx  # cx는 시작 x와 끝 x를 1 - t : t의 비율로 섞은 위치
-        cy = (1 - t) * sy + t * hy
-        t += 0.01
-    else:
-        cx, cy = hx, hy  # 캐릭터 위치를 강제로 목적지 위치와 정확히 일치시킴.
-        set_new_target_arrow()
+    if (target_exist) :
+        if (t <= 1.0):
+            cx = (1 - t) * sx + t * hx  # cx는 시작 x와 끝 x를 1 - t : t의 비율로 섞은 위치
+            cy = (1 - t) * sy + t * hy
+            t += 0.01
+        else:
+            cx, cy = hx, hy  # 캐릭터 위치를 강제로 목적지 위치와 정확히 일치시킴.
+            del points[0]
+            set_new_target_arrow()
 
 
 open_canvas(TUK_WIDTH, TUK_HEIGHT)
