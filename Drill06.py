@@ -63,6 +63,7 @@ def set_new_target_arrow():
         action = 3 if (action == 1) else 2  # IDLE 애니메이션
         target_exist = False
 
+
 def render_world():
     clear_canvas()
     TUK_ground.draw(TUK_WIDTH // 2, TUK_HEIGHT // 2)
@@ -79,7 +80,7 @@ def update_world():
 
     frame = (frame + 1) % 8
 
-    if (target_exist) :
+    if (target_exist):
         if (t <= 1.0):
             cx = (1 - t) * sx + t * hx  # cx는 시작 x와 끝 x를 1 - t : t의 비율로 섞은 위치
             cy = (1 - t) * sy + t * hy
